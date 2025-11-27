@@ -1,13 +1,16 @@
 package com.app.examen2025.di
 
 import android.content.Context
-import com.app.examen2025.data.remote.api.RemplazaApi
+import com.app.examen2025.data.remote.api.Api
+import com.app.examen2025.data.remote.interceptor.ApiKeyInterceptor
+import com.app.examen2025.data.repository.RepositoryImpl
+import com.app.examen2025.domain.repository.Repository
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -17,10 +20,23 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit =
+    fun provideApiKey(): String = "h5YIFLN9i6AWQz4Y5uY/mg==0dXVebepSHwpm4Ha"
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(apiKey: String): OkHttpClient =
+        OkHttpClient
+            .Builder()
+            .addInterceptor(ApiKeyInterceptor(apiKey))
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit =
         Retrofit
             .Builder()
             .baseUrl("https://api.api-ninjas.com/v1/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -30,19 +46,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRemplazaApi(retrofit: Retrofit): RemplazaApi = retrofit.create(RemplazaApi::class.java)
-
-//    @Provides
-//    @Singleton
-//    fun provideRemplazaPreferences(
-//        @ApplicationContext context: Context,
-//        gson: Gson,
-//    ): RemplazaPreferences = RemplazaPreferences(context, gson)
+    fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
     @Provides
     @Singleton
-    fun provideRemplazaRepository(
-        api: RemplazaApi,
-//        preferences: RemplazaPreferences,
-    ): RemplazaRepository = RemplazaRepositoryImpl(api, preferences)
+    fun provideRepository(api: Api): Repository = RepositoryImpl(api)
 }
