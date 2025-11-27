@@ -1,4 +1,4 @@
-package com.app.examen2025.presentation.screens.Initial
+package com.app.examen2025.presentation.screens.initial
 
 data class InitialUiState(
     val isLoading: Boolean = false,

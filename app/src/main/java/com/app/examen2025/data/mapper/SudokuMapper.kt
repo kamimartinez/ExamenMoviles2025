@@ -5,6 +5,6 @@ import com.app.examen2025.domain.model.Sudoku
 
 fun SudokuDto.toDomain(): Sudoku =
     Sudoku(
-        puzzle = this.puzzle,
-        solution = this.solution,
+        puzzle = this.puzzle.map { row -> row.map { cell -> cell ?: 0 } },
+        solution = this.solution.map { row -> row.map { cell -> cell ?: 0 } },
     )

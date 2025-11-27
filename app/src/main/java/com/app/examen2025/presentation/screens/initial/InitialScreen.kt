@@ -1,6 +1,9 @@
-package com.app.examen2025.presentation.screens.Initial
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
+package com.app.examen2025.presentation.screens.initial
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -8,10 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun InitialScreen(
-    onSaveClick: (width: Int, height: Int, difficulty: String) -> Unit,
-) {
+fun InitialScreen(onSaveClick: (width: Int, height: Int, difficulty: String) -> Unit) {
     val widthOptions = listOf(2, 3, 4)
     val heightOptions = listOf(2, 3, 4)
     val difficultyOptions = listOf("easy", "medium", "hard")
@@ -35,7 +37,7 @@ fun InitialScreen(
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Width") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             ExposedDropdownMenu(expanded = expandedWidth, onDismissRequest = { expandedWidth = false }) {
                 widthOptions.forEach { option ->
@@ -58,7 +60,7 @@ fun InitialScreen(
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Height") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             ExposedDropdownMenu(expanded = expandedHeight, onDismissRequest = { expandedHeight = false }) {
                 heightOptions.forEach { option ->
@@ -81,7 +83,7 @@ fun InitialScreen(
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Difficulty") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             ExposedDropdownMenu(expanded = expandedDifficulty, onDismissRequest = { expandedDifficulty = false }) {
                 difficultyOptions.forEach { option ->

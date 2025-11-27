@@ -6,14 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.app.examen2025.presentation.navigation.NavGraph
 import com.app.examen2025.presentation.theme.Examen2025Theme
-import com.app.pokedexapp.presentation.navigation.NavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 // hilt necesita saber cuales son los puntos de inicio de nuestra aplicación

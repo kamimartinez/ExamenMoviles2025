@@ -1,4 +1,4 @@
-package com.app.examen2025.presentation.screens.Sudoku
+package com.app.examen2025.presentation.screens.sudoku
 
 import com.app.examen2025.domain.model.Sudoku
 

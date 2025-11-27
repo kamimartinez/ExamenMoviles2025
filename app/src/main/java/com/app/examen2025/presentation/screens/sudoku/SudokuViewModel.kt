@@ -1,15 +1,15 @@
-package com.app.examen2025.presentation.screens.Sudoku
+package com.app.examen2025.presentation.screens.sudoku
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.examen2025.domain.common.Result
 import com.app.examen2025.domain.usecase.GetSudokuUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SudokuViewModel

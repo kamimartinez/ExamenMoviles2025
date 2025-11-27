@@ -25,7 +25,7 @@ class RepositoryImpl
             height: Int,
             difficulty: String,
         ): Sudoku {
-            val list = api.getSudoku(width, height, difficulty)
-            return list.firstOrNull() ?: throw IllegalStateException("No sudoku found for $width x $height ($difficulty)")
+            val dto = api.getSudoku(width, height, difficulty)
+            return dto.toDomain()
         }
     }
