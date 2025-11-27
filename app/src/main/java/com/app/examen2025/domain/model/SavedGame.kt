@@ -1,8 +1,6 @@
-package com.app.examen2025.data.local.model
+package com.app.examen2025.domain.model
 
-import com.app.examen2025.domain.model.Sudoku
-
-data class SudokuCache(
+data class SavedGame(
     val initial: Sudoku,
     val current: Sudoku,
     val width: Int,

@@ -2,6 +2,7 @@
 
 package com.app.examen2025.presentation.screens.initial
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -13,7 +14,11 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun InitialScreen(onSaveClick: (width: Int, height: Int, difficulty: String) -> Unit) {
+fun InitialScreen(
+    onSaveClick: (width: Int, height: Int, difficulty: String) -> Unit,
+    hasSavedGame: Boolean = false,
+    onRestoreLastGame: () -> Unit = {},
+) {
     val widthOptions = listOf(2, 3, 4)
     val heightOptions = listOf(2, 3, 4)
     val difficultyOptions = listOf("easy", "medium", "hard")
@@ -168,7 +173,23 @@ fun InitialScreen(onSaveClick: (width: Int, height: Int, difficulty: String) -> 
                     ) {
                         Text("Save")
                     }
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    if (hasSavedGame) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Regresar a última partida guardada",
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                                .padding(top = 8.dp)
+                                .clickable { onRestoreLastGame() },
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                    } else {
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
                 }
             }
         }

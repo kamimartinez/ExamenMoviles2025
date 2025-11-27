@@ -3,6 +3,7 @@ package com.app.examen2025.presentation.navigation
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,7 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.app.examen2025.presentation.screens.celebrity.CelebrityScreen
 import com.app.examen2025.presentation.screens.initial.InitialScreen
+import com.app.examen2025.presentation.screens.initial.InitialViewModel
 import com.app.examen2025.presentation.screens.sudoku.SudokuScreen
+import com.google.gson.Gson
 
 sealed class Screen(
     val route: String,
@@ -58,10 +61,30 @@ fun NavGraph(
         composable(Screen.Initial.route) {
             Log.d("NAVIGATION", "Pantalla: Initial")
 
+            val initialVm: InitialViewModel =
+                androidx.hilt.navigation.compose
+                    .hiltViewModel()
+            val saved = initialVm.savedGame.collectAsState().value
+
             InitialScreen(
                 onSaveClick = { w, h, diff ->
                     Log.d("NAVIGATION", "Initial -> Sudoku con w=$w h=$h diff=$diff")
                     navController.navigate(Screen.Sudoku.createRoute(w, h, diff))
+                },
+                hasSavedGame = saved != null,
+                onRestoreLastGame = {
+                    saved?.let { sg ->
+                        try {
+                            val json = Gson().toJson(sg)
+                            Log.d("NavGraph", "onRestoreLastGame() restoring SavedGame: $json")
+                        } catch (e: Exception) {
+                            Log.d(
+                                "NavGraph",
+                                "onRestoreLastGame() restoring SavedGame summary: width=${sg.width} height=${sg.height} difficulty=${sg.difficulty}",
+                            )
+                        }
+                        navController.navigate(Screen.Sudoku.createRoute(sg.width, sg.height, sg.difficulty))
+                    }
                 },
             )
         }
