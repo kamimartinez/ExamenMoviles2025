@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.app.examen2025.presentation.screens.Initial.InitialScreen
+import com.app.examen2025.presentation.screens.Sudoku.SudokuScreen
 import com.app.examen2025.presentation.screens.celebrity.CelebrityScreen
 
 sealed class Screen(
@@ -16,8 +18,20 @@ sealed class Screen(
 ) {
     object Home : Screen("home")
 
+    object Initial : Screen("initial") {
+        fun createRoute() = "initial"
+    }
+
     object Celebrity : Screen("celebrity/{name}") {
         fun createRoute(name: String) = "celebrity/${Uri.encode(name)}"
+    }
+
+    object Sudoku : Screen("sudoku/{width}/{height}/{difficulty}") {
+        fun createRoute(
+            width: Int,
+            height: Int,
+            difficulty: String,
+        ) = "sudoku/$width/$height/${Uri.encode(difficulty)}"
     }
 }
 
@@ -29,9 +43,15 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Celebrity.route,
+        startDestination = Screen.Initial.route,
         modifier = modifier,
     ) {
+        composable(Screen.Initial.route) {
+            InitialScreen(onSaveClick = { w, h, diff ->
+                navController.navigate(Screen.Sudoku.createRoute(w, h, diff))
+            })
+        }
+
         composable(
             Screen.Celebrity.route,
             arguments = listOf(navArgument("name") { type = NavType.StringType }),
@@ -41,6 +61,26 @@ fun NavGraph(
             CelebrityScreen(
                 onBackClick = { navController.popBackStack() },
                 name = name,
+            )
+        }
+
+        composable(
+            Screen.Sudoku.route,
+            arguments =
+                listOf(
+                    navArgument("width") { type = NavType.IntType },
+                    navArgument("height") { type = NavType.IntType },
+                    navArgument("difficulty") { type = NavType.StringType },
+                ),
+        ) { backStackEntry ->
+            val width = backStackEntry.arguments?.getInt("width") ?: 3
+            val height = backStackEntry.arguments?.getInt("height") ?: 3
+            val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "easy"
+            SudokuScreen(
+                onSaveClick = { navController.popBackStack() },
+                width = width,
+                height = height,
+                difficulty = difficulty,
             )
         }
     }
