@@ -11,4 +11,14 @@ interface Repository {
         height: Int,
         difficulty: String,
     ): Sudoku
+
+    suspend fun saveGame(
+        initial: Sudoku,
+        current: Sudoku,
+        width: Int,
+        height: Int,
+        difficulty: String,
+    )
+
+    suspend fun getSavedGame(): com.app.examen2025.domain.model.SavedGame?
 }

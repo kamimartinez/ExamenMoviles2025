@@ -1,6 +1,7 @@
 package com.app.examen2025.di
 
 import android.content.Context
+import com.app.examen2025.data.local.preferences.SudokuPreferences
 import com.app.examen2025.data.remote.api.Api
 import com.app.examen2025.data.remote.interceptor.ApiKeyInterceptor
 import com.app.examen2025.data.repository.RepositoryImpl
@@ -50,5 +51,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: Api): Repository = RepositoryImpl(api)
+    fun provideRepository(
+        api: Api,
+        preferences: SudokuPreferences,
+    ): Repository = RepositoryImpl(api, preferences)
 }
